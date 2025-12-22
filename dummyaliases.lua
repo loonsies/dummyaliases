@@ -3,6 +3,8 @@ addon.version = '0.01'
 addon.author = 'looney'
 
 require 'common'
+local chat = require('chat')
+
 local aliases = T {
     '/organize',
     '/togglefps'
@@ -28,9 +30,9 @@ ashita.events.register('command', 'command_cb', function(cmd, nType)
 
 
         if command == '/organize' then
+            print(chat.header(addon.name):append(chat.color2(200, 'Organizing inventory...')))
             AshitaCore:GetChatManager():QueueCommand(1, '/packer load nogear')
             ashita.tasks.once(1, function()
-                print('Organizing inventory...')
                 AshitaCore:GetChatManager():QueueCommand(1, '/packer organize')
 
                 ashita.tasks.once(5, function()
@@ -42,11 +44,11 @@ ashita.events.register('command', 'command_cb', function(cmd, nType)
         elseif command == '/togglefps' then
             if state.fastFps == false then
                 state.fastFps = true
-                print('Fast FPS mode enabled.')
+                print(chat.header(addon.name):append(chat.color2(101, 'Fast FPS mode enabled.')))
                 AshitaCore:GetChatManager():QueueCommand(1, '/fps 0')
             else
                 state.fastFps = false
-                print('Fast FPS mode disabled.')
+                print(chat.header(addon.name):append(chat.color2(102, 'Fast FPS mode disabled.')))
                 AshitaCore:GetChatManager():QueueCommand(1, '/fps 1')
             end
         end
